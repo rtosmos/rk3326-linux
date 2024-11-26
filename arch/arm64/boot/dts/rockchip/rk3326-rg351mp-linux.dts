@@ -20,7 +20,7 @@
 	compatible = "rockchip,rk3326-rg351mp-linux", "rockchip,rk3326";
 
 	chosen {
-             bootargs = "console=ttyS0,115200n8 loglevel=7 console=tty1 gpt fbcon=rotate:3";
+             bootargs = "console=ttyS0,115200n8 console=tty1 gpt fbcon=rotate:3";
 	};
 
 	gpio_keys: rg351-keys {
@@ -97,10 +97,8 @@
 		/* adc mux channel count */
 		amux-count = <4>;
 		/* adc mux select(a,b) gpio */
-		//amux-a-gpios = <&gpio3 RK_PB3 GPIO_ACTIVE_LOW>;
-		//amux-b-gpios = <&gpio3 RK_PB0 GPIO_ACTIVE_LOW>;
-		amux-b-gpios = <&gpio3 RK_PB3 GPIO_ACTIVE_LOW>;
-		amux-a-gpios = <&gpio3 RK_PB0 GPIO_ACTIVE_LOW>;
+		amux-a-gpios = <&gpio3 RK_PB3 GPIO_ACTIVE_LOW>;
+		amux-b-gpios = <&gpio3 RK_PB0 GPIO_ACTIVE_LOW>;
 		/* adc mux enable gpio */
 		amux-en-gpios = <&gpio3 RK_PB5 GPIO_ACTIVE_LOW>;
 
@@ -274,7 +272,6 @@
 	backlight: backlight {
 		compatible = "pwm-backlight";
 		pwms = <&pwm1 0 62745 0>;
-		/*
 		brightness-levels = <
 			  2   3   4   5   6   7
 			  8   9  10  11  12  13  14  15
@@ -289,17 +286,6 @@
 			 80  81  82  83  84  85  86  87
 			 88  89  90  91  92  93  94  95
 			 96  97  98  99 100 101 102 >;
-			 */
-			 brightness-levels = <
-			 100  99  98  97  96  95  94 93
-			 92 91 90 89 88 87 86 85 84 83 82 81 
-			 80 79 78 77 76 75 74 73 72 71 70
-			 69 68 67 66 65 64 63 62 61 60 59 
-			 58 57 56 55 54 53 52 51 50 49 48 
-			 47 46 45 44 43 42 41 40 39 38 37
-			 36 35 34 33 32 31 30 29 28 27 26
-			 25 24 23 22 21 20 19 18 17 16 15 
-			 14 13 12 11 10 9 8 7 6 5 4 3 2 1 >;
 		default-brightness-level = <51>; /* default 50% */
 	};
 
@@ -330,7 +316,7 @@
 			/*"IN1P", "Mic Jack",*/
 			"Headphone Jack", "HPOL",
 			"Headphone Jack", "HPOR";
-		//simple-audio-card,hp-det-gpio = <&gpio2 RK_PC6 GPIO_ACTIVE_LOW>;
+		simple-audio-card,hp-det-gpio = <&gpio2 RK_PC6 GPIO_ACTIVE_LOW>;
 		simple-audio-card,codec-hp-det = <1>;
 		simple-audio-card,cpu {
 			sound-dai = <&i2s1_2ch>;
@@ -339,14 +325,7 @@
 			sound-dai = <&rk817_codec>;
 		};
 	};
-	
-rk_headset {
-		compatible = "rockchip_headset";
-		headset_gpio = <&gpio2 RK_PC6 GPIO_ACTIVE_LOW>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&hp_det>;
-	};
-	
+
 	vccsys: vccsys {
 		compatible = "regulator-fixed";
 		regulator-name = "vcc3v8_sys";
@@ -381,115 +360,16 @@ rk_headset {
 	rockchip,avs = <1>;
 
 	/* bin scaling clock 1.296MHz */
-	
 	rockchip,bin-scaling-sel = <
 		0               13
 		1               13
 	>;
+
 	/delete-node/ opp-408000000;
 	/delete-node/ opp-600000000;
 	/delete-node/ opp-816000000;
 	/delete-node/ opp-1416000000;
 	/delete-node/ opp-1512000000;
-	/*
-	rockchip,bin-scaling-sel = <
-		0	10
-		1	13
-		2	16
-		3	20
-	>;
-	
-	opp-816000000 {
-		opp-hz = /bits/ 64 <816000000>;
-		opp-microvolt = <1050000 1050000 1350000>;
-		opp-microvolt-L0 = <1050000 1050000 1350000>;
-		opp-microvolt-L1 = <1000000 1000000 1350000>;
-		opp-microvolt-L2 = <1000000 1000000 1350000>;
-		opp-microvolt-L3 = <950000  950000  1350000>;
-		clock-latency-ns = <40000>;
-		opp-suspend;
-	};
-
-	opp-912000000 {
-		opp-hz = /bits/ 64 <912000000>;
-		opp-microvolt = <1125000 1125000 1350000>;
-		opp-microvolt-L0 = <1125000 1125000 1350000>;
-		opp-microvolt-L1 = <1075000 1075000 1350000>;
-		opp-microvolt-L2 = <1075000 1075000 1350000>;
-		opp-microvolt-L3 = <1000000 1000000 1350000>;
-		clock-latency-ns = <40000>;
-	};
-
-	opp-1008000000 {
-		opp-hz = /bits/ 64 <1008000000>;
-		opp-microvolt = <1175000 1175000 1350000>;
-		opp-microvolt-L0 = <1175000 1175000 1350000>;
-		opp-microvolt-L1 = <1125000 1125000 1350000>;
-		opp-microvolt-L2 = <1125000 1125000 1350000>;
-		opp-microvolt-L3 = <1050000 1050000 1350000>;
-		clock-latency-ns = <40000>;
-	};
-
-	opp-1200000000 {
-		opp-hz = /bits/ 64 <1200000000>;
-		opp-microvolt = <1300000 1300000 1350000>;
-		opp-microvolt-L0 = <1300000 1300000 1350000>;
-		opp-microvolt-L1 = <1275000 1275000 1350000>;
-		opp-microvolt-L2 = <1250000 1250000 1350000>;
-		opp-microvolt-L3 = <1200000 1200000 1350000>;
-		clock-latency-ns = <40000>;
-	};
-
-	opp-1248000000 {
-		opp-hz = /bits/ 64 <1248000000>;
-		opp-microvolt = <1350000 1350000 1350000>;
-		opp-microvolt-L0 = <1350000 1350000 1350000>;
-		opp-microvolt-L1 = <1300000 1300000 1350000>;
-		opp-microvolt-L2 = <1275000 1275000 1350000>;
-		opp-microvolt-L3 = <1225000 1225000 1350000>;
-		clock-latency-ns = <40000>;
-	};
-
-	opp-1296000000 {
-		opp-hz = /bits/ 64 <1296000000>;
-		opp-microvolt = <1350000 1350000 1350000>;
-		opp-microvolt-L0 = <1350000 1350000 1350000>;
-		opp-microvolt-L1 = <1350000 1350000 1350000>;
-		opp-microvolt-L2 = <1300000 1300000 1350000>;
-		opp-microvolt-L3 = <1250000 1250000 1350000>;
-		clock-latency-ns = <40000>;
-	};
-
-	opp-1320000000 {
-		opp-hz = /bits/ 64 <1320000000>;
-		opp-microvolt = <1350000 1350000 1350000>;
-		opp-microvolt-L0 = <1350000 1350000 1350000>;
-		opp-microvolt-L1 = <1350000 1350000 1350000>;
-		opp-microvolt-L2 = <1300000 1300000 1350000>;
-		opp-microvolt-L3 = <1250000 1250000 1350000>;
-		clock-latency-ns = <40000>;
-	};
-
-	opp-1344000000 {
-		opp-hz = /bits/ 64 <1344000000>;
-		opp-microvolt = <1350000 1350000 1350000>;
-		opp-microvolt-L0 = <1350000 1350000 1350000>;
-		opp-microvolt-L1 = <1350000 1350000 1350000>;
-		opp-microvolt-L2 = <1300000 1300000 1350000>;
-		opp-microvolt-L3 = <1250000 1250000 1350000>;
-		clock-latency-ns = <40000>;
-	};
-
-	opp-1368000000 {
-		opp-hz = /bits/ 64 <1368000000>;
-		opp-microvolt = <1350000 1350000 1350000>;
-		opp-microvolt-L0 = <1350000 1350000 1350000>;
-		opp-microvolt-L1 = <1350000 1350000 1350000>;
-		opp-microvolt-L2 = <1300000 1300000 1350000>;
-		opp-microvolt-L3 = <1250000 1250000 1350000>;
-		clock-latency-ns = <40000>;
-	};
-	*/
 };
 
 &display_subsystem {
@@ -502,51 +382,25 @@ rk_headset {
 	panel@0 {
 		compatible = "elida,kd35t133", "simple-panel-dsi";
 		reg = <0>;
-		
-		pinctrl-names = "default";
-		pinctrl-0 = <&lcd_rst_gpio>;
-		
+
 		/* pwm1 backlight */
 		backlight = <&backlight>;
 		/* RK817 LDO7 */
 		backlight-supply = <&vcc_backlight>;
 		/* RK817 LDO8 */
-		power_lcd-supply = <&vcc_lcd>;
-		/* RK817 LDO1 */
-		vsp_vsn-supply=<&vcc_vsp_vsn>;
-		
+		power-supply = <&vcc_lcd>;
+
 		/* Rev 0.2 LCD reset gpio GPIO3.C0 */
 		reset-gpios = <&gpio3 RK_PC0 GPIO_ACTIVE_LOW>;
-		
-		/*vsp and vsn en GPIO0.A2*/
-		vspn-en=<&gpio0 RK_PA2 GPIO_ACTIVE_LOW>;
-		/*amp en GPIO3.C3*/
-		amp_en_gpio=<&gpio3 RK_PC5 GPIO_ACTIVE_LOW>;
-		/*
-		
-		prepare-delay-ms = <2>;//配置panel接收图像数据前的延时值
+		///*
+		prepare-delay-ms = <2>;
 		//reset-delay-ms = <1>;
-		reset-delay-ms = <2>;//配置reset的脉冲时延
-		init-delay-ms = <20>;//配置panel在初始化前的时值
-		enable-delay-ms = <120>;//配置pane1显示前的延时值;
-		disable-delay-ms = <50>;//配置panel关闭前的延时值;
-		unprepare-delay-ms = <20>;//配置panel黑屏前的延时值:
-		
-		*/
-             /*
-		prepare-delay-ms = <6>;
-		reset-delay-ms = <1>;
+		reset-delay-ms = <5>;
 		init-delay-ms = <20>;
 		enable-delay-ms = <120>;
-		disable-delay-ms = <70>;
+		disable-delay-ms = <50>;
 		unprepare-delay-ms = <20>;
-		*/
-		prepare-delay-ms = <2>;
-		reset-delay-ms = <1>;
-		init-delay-ms = <1>;
-		enable-delay-ms = <120>;
-		disable-delay-ms = <70>;
-		unprepare-delay-ms = <20>;
+//*/
 		/* LCD size */
 		/*
 		width-mm = <59>;
@@ -617,63 +471,27 @@ rk_headset {
 			15 00 02 B0 2F
 			15 78 02 29 00
 			*/
-			/*//退出休眠不关机
-			//15 05 02 01 00
-			15 05 02 01 01
+			15 05 02 01 00
 			15 05 02 B0 00
 			39 00 06 E4 00 00 00 00 08
 			39 00 04 D0 45 45 71
-			15 78 02 6F 01
+			15 00 02 6F 01
 			05 78 01 11 
 			39 00 04 D0 52 4A 71
 			39 00 09 BE FF 0F 00 18 04 04 00 5D
 			15 00 02 BB 2F
 			15 14 02 B0 2F
-			//05 20 01 11
-			05 78 01 29 
-			*/
-		      //15 05 02 01 00
-			//05 05 01 01
-			05 05 01 01
-			15 05 02 B0 00
-			39 00 06 E4 00 00 00 00 08
-			39 00 04 D0 45 45 71
-			15 78 02 6F 01
-			05 78 01 11 
-			39 00 04 D0 52 4A 71
-			39 00 09 BE FF 0F 00 18 04 04 00 5D
-			15 00 02 BB 2F
-			15 14 02 B0 2F
-		      //05 20 01 11
 			05 78 01 29 
 			
 		];
 
 		/* 28: DisplayOff */
 		/* 10: SleepIn */
-		/*
 		panel-exit-sequence = [
-			05 20 01 28
-			05 78 01 10
+			05 64 01 28
+			05 64 01 10
 		];
-		*/
-		/*             //退出休眠不关机
-		panel-exit-sequence = [   
-			05 20 01 28
-			05 78 01 10
-			
-			
-		];
-		*/
-		panel-exit-sequence = [ 
-		
-		05 20 01 01
-		05 20 01 10  
-		05 78 01 28
-			
-			
-			
-		];
+
 		display-timings {
 			native-mode = <&timing0>;
 
@@ -724,30 +542,13 @@ rk_headset {
 &dmc {
 	center-supply = <&vdd_logic>;
 	status = "okay";
-	upthreshold = <40>;
-	downdifferential = <20>;
-	system-status-freq = <
-		/*system status         freq(KHz)*/
-		SYS_STATUS_NORMAL       666000
-		SYS_STATUS_REBOOT       786000
-		SYS_STATUS_SUSPEND      450000
-		SYS_STATUS_VIDEO_1080P  666000
-		SYS_STATUS_VIDEO_4K     786000
-		SYS_STATUS_VIDEO_4K_10B 786000
-		SYS_STATUS_PERFORMANCE  850000
-		SYS_STATUS_BOOST        850000
-		SYS_STATUS_DUALVIEW     786000
-		SYS_STATUS_ISP          786000
-	>;
-
-	auto-min-freq = <450000>;
-	auto-freq-en = <1>;
 };
 
 &dmc_opp_table {
 	/delete-node/ opp-194000000;
 	/delete-node/ opp-328000000;
 	/delete-node/ opp-450000000;
+
 	opp-786000000 {
 		opp-hz = /bits/ 64 <786000000>;
 		opp-microvolt = <1125000>;
@@ -757,32 +558,6 @@ rk_headset {
 		opp-microvolt-L3 = <1025000>;
 		status = "okay";
 	};
-/*
-	opp-450000000 {
-		opp-hz = /bits/ 64 <450000000>;
-		opp-microvolt = <950000>;
-	};
-
-	opp-528000000 {
-		opp-hz = /bits/ 64 <528000000>;
-		opp-microvolt = <975000>;
-	};
-
-	opp-666000000 {
-		opp-hz = /bits/ 64 <666000000>;
-		opp-microvolt = <1050000>;
-	};
-
-	opp-786000000 {
-		opp-hz = /bits/ 64 <786000000>;
-		opp-microvolt = <1150000>;
-	};
-
-	opp-840000000 {
-		opp-hz = /bits/ 64 <840000000>;
-		opp-microvolt = <1150000>;
-	};
-	*/
 };
 
 &emmc {
@@ -797,51 +572,6 @@ rk_headset {
 &gpu_opp_table {
 	/delete-node/ opp-200000000;
 	/delete-node/ opp-300000000;
-	/*
-	opp-400000000 {
-		opp-hz = /bits/ 64 <400000000>;
-		opp-microvolt = <1050000>;
-		opp-microvolt-L0 = <1050000>;
-		opp-microvolt-L1 = <1025000>;
-		opp-microvolt-L2 = <975000>;
-		opp-microvolt-L3 = <950000>;
-	};
-	opp-480000000 {
-		opp-hz = /bits/ 64 <480000000>;
-		opp-microvolt = <1125000>;
-		opp-microvolt-L0 = <1125000>;
-		opp-microvolt-L1 = <1100000>;
-		opp-microvolt-L2 = <1050000>;
-		opp-microvolt-L3 = <1000000>;
-	};
-
-	opp-520000000 {
-		opp-hz = /bits/ 64 <520000000>;
-		opp-microvolt = <1150000>;
-		opp-microvolt-L0 = <1150000>;
-		opp-microvolt-L1 = <1150000>;
-		opp-microvolt-L2 = <1100000>;
-		opp-microvolt-L3 = <1050000>;
-	};
-
-	opp-540000000 {
-		opp-hz = /bits/ 64 <540000000>;
-		opp-microvolt = <1150000>;
-		opp-microvolt-L0 = <1150000>;
-		opp-microvolt-L1 = <1150000>;
-		opp-microvolt-L2 = <1100000>;
-		opp-microvolt-L3 = <1050000>;
-	};
-
-	opp-560000000 {
-		opp-hz = /bits/ 64 <560000000>;
-		opp-microvolt = <1150000>;
-		opp-microvolt-L0 = <1150000>;
-		opp-microvolt-L1 = <1150000>;
-		opp-microvolt-L2 = <1100000>;
-		opp-microvolt-L3 = <1050000>;
-	};
-	*/
 };
 
 &i2c0 {
@@ -984,7 +714,6 @@ rk_headset {
 			};
 
 			/* Not Used */
-			/*
 			vcc_1v0: LDO_REG1 {
 				regulator-min-microvolt = <1000000>;
 				regulator-max-microvolt = <1000000>;
@@ -992,16 +721,6 @@ rk_headset {
 				regulator-state-mem {
 					regulator-off-in-suspend;
 					regulator-suspend-microvolt = <1000000>;
-				};
-			};
-			*/
-			vcc_vsp_vsn: LDO_REG1 {
-				regulator-min-microvolt = <2800000>;
-				regulator-max-microvolt = <2800000>;
-				regulator-name = "vcc_vsp_vsn";
-				regulator-state-mem {
-					regulator-off-in-suspend;
-					regulator-suspend-microvolt = <2800000>;
 				};
 			};
 
@@ -1057,7 +776,7 @@ rk_headset {
 					regulator-suspend-microvolt = <1800000>;
 				};
 			};
-			/*
+
 			vcc_sd: LDO_REG6 {
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <3000000>;
@@ -1067,19 +786,6 @@ rk_headset {
 				regulator-state-mem {
 					regulator-on-in-suspend;
 					regulator-suspend-microvolt = <3000000>;
-
-				};
-			};
-			*/
-			vcc_sd: LDO_REG6 {
-				regulator-min-microvolt = <3300000>;
-				regulator-max-microvolt = <3300000>;
-				regulator-boot-on;
-
-				regulator-name = "vcc_sd";
-				regulator-state-mem {
-					regulator-on-in-suspend;
-					regulator-suspend-microvolt = <3300000>;
 
 				};
 			};
@@ -1136,15 +842,11 @@ rk_headset {
 
 		battery {
 			compatible = "rk817,battery";
-		/*	ocv_table = <3165 3220 3280 3330 3380 3430 3480
+			ocv_table = <3165 3220 3280 3330 3380 3430 3480
 			3530 3580 3630 3670 3710 3750 3790
 			3830 3870 3910 3950 3990 3995 4000>;
 
-			*/
-			
-			ocv_table = <3400 3599 3671 3701 3728 3746 3762
-				3772 3781 3792 3816 3836 3866 3910
-				3942 3971 4002 4050 4088 4132 4183>;
+
 			/* KPL605475 Battery Spec */
 			/*
 				Capacity : 3.7V 3000mA
@@ -1155,16 +857,13 @@ rk_headset {
 				Charging Voltage Max : 4.25V
 				Sample resister : 10 mohm
 			*/
-			//design_capacity = <3380>;
-			//design_qmax = <3718>;
-			design_capacity = <1100>;
-			design_qmax = <1320>;
+			design_capacity = <3380>;
+			design_qmax = <3718>;
 			bat_res = <100>;
 			sleep_enter_current = <300>;
 			sleep_exit_current = <300>;
 			sleep_filter_current = <100>;
-			//power_off_thresd = <3000>;
-			power_off_thresd = <3320>;
+			power_off_thresd = <3000>;
 			zero_algorithm_vol = <3850>;
 			max_soc_offset = <60>;
 			monitor_sec = <5>;
@@ -1199,7 +898,6 @@ rk_headset {
 			clock-names = "mclk";
 			pinctrl-names = "default";
 			pinctrl-0 = <&i2s1_2ch_mclk>;
-			spk-ctl-gpios = <&gpio2 RK_PA5 GPIO_ACTIVE_HIGH>;
 			hp-volume = <20>;
 			spk-volume = <3>;
 			status = "okay";
@@ -1387,20 +1085,6 @@ rk_headset {
 };
 
 &pinctrl {
-	headphone {
-		hp_det: hp-det {
-			rockchip,pins = <2 RK_PC6 RK_FUNC_GPIO &pcfg_pull_up>;
-		};
-		};
-
-	lcd_rst {
-		lcd_rst_gpio: lcd-rst-gpio {
-			rockchip,pins =
-				       <3 RK_PC0 RK_FUNC_GPIO &pcfg_pull_none>,
-				       <0 RK_PA2 RK_FUNC_GPIO &pcfg_pull_none>,
-				       <3 RK_PC5 RK_FUNC_GPIO &pcfg_pull_none>;
-				       };
-		};
 
 	pmic {
 		/* ODROID-GO2 : PMIC_INT(GPIO0.PB2) */
@@ -1460,5 +1144,4 @@ rk_headset {
 };
 
 /* DON'T PUT ANYTHING BELOW HERE.  PUT IT ABOVE PINCTRL */
-
 
